@@ -3,7 +3,9 @@ package zioapp.weather
 import java.io.IOException
 
 import app.{City, Forecast, WeatherClient}
-import scalaz.zio.{IO, ZIO}
+import zio._
+import capture.Capture
+import zioapp.error.WeatherErr
 
 trait Weather {
   def weather: Weather.Service[Any]
@@ -12,15 +14,15 @@ trait Weather {
 object Weather {
 
   trait Service[R] {
-    def forecast(client: WeatherClient, city: City): ZIO[R, IOException, Forecast]
+    def forecast(client: WeatherClient, city: City): ZIO[R, Capture[WeatherErr], Forecast]
   }
 
   trait Live extends Weather {
     val weather = new Service[Any] {
-      def forecast(client: WeatherClient, city: City): IO[IOException, Forecast] =
+      def forecast(client: WeatherClient, city: City): IO[Capture[WeatherErr], Forecast] =
         IO.effect(client.forecast(city))
           .refineOrDie {
-            case e: IOException ⇒ e
+            case er: IOException ⇒ WeatherErr.weatherClient(er)
           }
     }
   }

@@ -1,11 +1,14 @@
 package zioapp
 
 import app.Config
-import scalaz.zio._
+import zio._
 
 package object config {
-  type HasConfig = Any ⇒ Config
 
-  val host = ZIO.access { c: HasConfig ⇒ c(()).host }
-  val port = ZIO.access { c: HasConfig ⇒ c(()).port }
+  trait HasConfig {
+    def config: Config
+  }
+
+  val host = ZIO.access { c: HasConfig ⇒ c.config.host }
+  val port = ZIO.access { c: HasConfig ⇒ c.config.port }
 }

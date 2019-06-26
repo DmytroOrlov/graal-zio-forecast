@@ -1,18 +1,11 @@
 package zioapp
 
-import java.io.IOException
-
 import app.{City, Forecast, WeatherClient}
-import scalaz.zio.ZIO
-import zioapp.config._
+import zio._
+import capture.Capture
+import zioapp.error.WeatherErr
 
 package object weather extends Weather.Service[Weather] {
-  def forecast(client: WeatherClient, city: City): ZIO[Weather, IOException, Forecast] =
+  def forecast(client: WeatherClient, city: City): ZIO[Weather, Capture[WeatherErr], Forecast] =
     ZIO.accessM(_.weather.forecast(client, city))
-
-
-  val weatherClient = for {
-    h <- host
-    p <- port
-  } yield new WeatherClient(h, p)
 }
