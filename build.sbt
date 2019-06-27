@@ -1,6 +1,6 @@
 import Dependencies._
 
-lazy val zioVersion = "1.0.0-RC8-12"
+lazy val zioVersion = "1.0.0-RC9"
 
 lazy val `scala-with-cats` = (project in file(".")).
   settings(
@@ -13,7 +13,6 @@ lazy val `scala-with-cats` = (project in file(".")).
     addCompilerPlugin(("org.scalameta" % "paradise" % "3.0.0-M11").cross(CrossVersion.full)),
     libraryDependencies ++= Seq(
       "dev.zio" %% "zio" % zioVersion,
-      "dev.zio" %% "zio-interop-cats" % zioVersion,
       "org.typelevel" %% "cats-core" % "2.0.0-M4",
       "org.typelevel" %% "cats-mtl-core" % "0.5.0",
       "org.typelevel" %% "cats-tagless-macros" % "0.8",
