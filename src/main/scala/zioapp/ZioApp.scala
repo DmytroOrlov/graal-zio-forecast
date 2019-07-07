@@ -32,7 +32,6 @@ object ZioApp extends App {
     } yield ()
 
     def program = for {
-      _ <- printLn(typestr(makeLoop))
       host <- host
       port <- port
       _ <- printLn(s"Using weather service at http://$host:$port")
@@ -86,9 +85,4 @@ object ZioApp extends App {
         val config = conf
       })
   }
-
-  import scala.util.matching.Regex
-  import scala.reflect.runtime.universe._
-
-  def typestr[A: WeakTypeTag](x: => A): String = weakTypeOf[A].dealias.widen.toString
 }

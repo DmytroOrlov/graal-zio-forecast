@@ -11,13 +11,13 @@ package object app {
     }
   }
 
+  /*
   import cats.implicits._
   import cats.data.Reader
   import cats.data.State
   import cats.data.StateT
   import monix.eval.Task
 
-  /*
   def host: Reader[Config, String] =
     Reader(_.host)
 
